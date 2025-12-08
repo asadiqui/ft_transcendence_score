@@ -427,7 +427,7 @@ function render() {
     const score = calculateScore();
     const isPassing = score >= 14;
 
-    // Updated Header with Reset Button
+    // Sticky Header
     let html = `
         <div class="score-sticky">
             <div class="flex items-center gap-4">
@@ -442,6 +442,15 @@ function render() {
             <div class="text-sm text-gray-500">
                 ${isPassing ? '✅ Project Validated' : '⚠️ More points needed'}
             </div>
+        </div>
+    `;
+
+    // Clarification / Info Block
+    html += `
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r text-sm text-blue-900">
+            <p class="font-bold mb-1">Point System</p>
+            <p class="mb-2">You will need to earn <strong>14 points</strong> in total to complete your project. Each major module is worth <strong>2 points</strong>, and each minor module is worth <strong>1 point</strong>.</p>
+            <p class="italic text-blue-800">Additionally, aiming for more than 14 points in total may be a good idea, especially if some modules aren’t validated during the evaluation.</p>
         </div>
     `;
 
@@ -485,9 +494,15 @@ function render() {
         html += `</div></div>`;
     });
 
-    // Footer
+    // Footer with Star Request
     html += `
         <footer class="mt-12 mb-8 text-center border-t border-gray-200 pt-8">
+            <div class="mb-6">
+                <a href="https://github.com/asadiqui/ft_transcendence_score" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700 transition-colors text-sm font-medium">
+                    <i class="fa-regular fa-star text-yellow-400"></i> Star on GitHub
+                </a>
+            </div>
+            
             <p class="text-gray-500 mb-4 text-sm">Created by asadiqui</p>
             <div class="flex justify-center gap-6">
                 <a href="https://linktr.ee/lmodir" target="_blank" class="text-gray-400 hover:text-green-600 transition-colors" title="Linktree">
