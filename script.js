@@ -386,6 +386,28 @@ const state = {
     expanded: new Set()
 };
 
+// Load from localStorage
+function loadState() {
+    const saved = localStorage.getItem('ft_transcendence_v19');
+    if (saved) {
+        state.selected = new Set(JSON.parse(saved));
+    }
+}
+
+// Save to localStorage
+function saveState() {
+    localStorage.setItem('ft_transcendence_v19', JSON.stringify([...state.selected]));
+}
+
+// Reset function
+function resetCalculator() {
+    if(confirm('Clear all selections?')) {
+        state.selected.clear();
+        saveState();
+        render();
+    }
+}
+
 function getPoints(type) {
     return type === "Major" ? 2 : 1;
 }
@@ -405,12 +427,17 @@ function render() {
     const score = calculateScore();
     const isPassing = score >= 14;
 
-    // Sticky Header
+    // Updated Header with Reset Button
     let html = `
         <div class="score-sticky">
-            <div>
-                <span class="score-text">Total Score: </span>
-                <span class="score-text ${isPassing ? 'score-success' : 'score-pending'}">${score} / 14</span>
+            <div class="flex items-center gap-4">
+                <div>
+                    <span class="score-text">Total Score: </span>
+                    <span class="score-text ${isPassing ? 'score-success' : 'score-pending'}">${score} / 14</span>
+                </div>
+                <button onclick="resetCalculator()" class="text-xs text-gray-400 hover:text-red-500 underline ml-2">
+                    Reset
+                </button>
             </div>
             <div class="text-sm text-gray-500">
                 ${isPassing ? '✅ Project Validated' : '⚠️ More points needed'}
@@ -485,6 +512,7 @@ function toggleSelect(id) {
     } else {
         state.selected.add(id);
     }
+    saveState(); // Save on change
     render();
 }
 
@@ -504,5 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
         appDiv.id = 'app';
         document.querySelector('.container').appendChild(appDiv);
     }
+    loadState(); // Load data on init
     render();
 });
